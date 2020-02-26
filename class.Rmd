@@ -25,7 +25,7 @@ data <- nes %>%
          educ1,
          female,
          income) %>%
-  mutate_at(3:8, as.factor) %>%
+  mutate_at(4:8, as.factor) %>%
   mutate(race = case_when(
     race_adj == 1 ~ "white",
     race_adj == 1.5 ~ "other",
@@ -74,12 +74,15 @@ two <- model %>%
 ```{r}
 fit2 <- stan_glm(partyid7 ~ race, data = model, refresh = 0)
 
+fit3 <- stan_glm(partyid7 ~ real_ideo, data = model, refresh = 0)
+
 ```
 
 ```{r}
 
 model <- model %>%
   mutate(pred_gender = predict(fit1, model),
-         pred_race = predict(fit2, model))
+         pred_race = predict(fit2, model),
+         pred_ideo = predict(fit3, model))
 ```
 
